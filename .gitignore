@@ -1,4 +1,6 @@
 calendar/
+credentials.json
+token.pickle
 # Editors
 .vscode/
 .idea/
