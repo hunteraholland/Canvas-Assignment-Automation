@@ -2,6 +2,8 @@ from __future__ import print_function
 import datetime
 import pickle
 import os.path
+import requests
+import os
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -49,6 +51,23 @@ def main():
     #     start = event['start'].get('dateTime', event['start'].get('date'))
     #     print(start, event['summary'])
 
+    # TODO:
+    # Check week
+
+
+    # Get Assignments for the week from Canvas API
+    token = os.environ['CANVAS_TOKEN']
+    headers = {'Authorization': 'Bearer ' + token}
+    r = requests.get(
+        'https://uc.instructure.com/api/v1/users/self/upcoming_events',
+        headers=headers)
+    json_response = r.json()
+    assignments = json_response[0]
+    for keys, values in assignments.items():
+         print(keys)
+
+
+    # Add assignments for the week
 
 
 
