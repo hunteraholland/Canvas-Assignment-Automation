@@ -60,9 +60,9 @@ def main():
 
     for j in json_response:
         base = 'https://tasks.googleapis.com/tasks/v1/lists/'
-        acct = 'cW4xQ1ZJb1NKakljd3lpSQ'
-        mgmt = 'S2tsR09tZWNqMFpTWXNRYQ'
-        web = 'Skpya2JzeE1lUE5nTTYxQg'
+        acct = os.environ['ACCT_LIST']
+        mgmt = os.environ['MGMT_LIST']
+        web = os.environ['WEB_LIST']
         title = j['title']
         notes = j['description']
         due = j['due_at']
