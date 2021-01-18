@@ -3,7 +3,6 @@ import pickle
 import os.path
 import requests
 import os
-from bs4 import BeautifulSoup as bs
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -37,34 +36,12 @@ def main():
 
     service = build('tasks', 'v1', credentials=creds)
 
-    # # Call the Tasks API
-    # results = service.tasklists().list(maxResults=10).execute()
-    # items = results.get('items', [])
-    #
-    # if not items:
-    #     print('No task lists found.')
-    # else:
-    #     print('Task lists:')
-    #     for item in items:
-    #         print(u'{0} ({1})'.format(item['title'], item['id']))
-
-    # TODO:
-    # Get Assignments for the week from Canvas API
     token = os.environ['CANVAS_TOKEN']
     headers = {'Authorization': 'Bearer ' + token}
     r = requests.get(
         'https://uc.instructure.com/api/v1/users/self/upcoming_events',
         headers=headers)
-    src = r.content
     json_response = r.json()
-
-    # for j in json_response:
-    #     assignment = j['assignment']
-    #     print(assignment['due_at'])
-        # print(assignment['due_date'])
-        # for key, value in j.items():
-        #     for due in key:
-        #         print(due)
 
     for j in json_response:
         base = 'https://tasks.googleapis.com/tasks/v1/lists/'
