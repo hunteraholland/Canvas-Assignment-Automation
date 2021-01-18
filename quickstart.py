@@ -58,6 +58,14 @@ def main():
     src = r.content
     json_response = r.json()
 
+    # for j in json_response:
+    #     assignment = j['assignment']
+    #     print(assignment['due_at'])
+        # print(assignment['due_date'])
+        # for key, value in j.items():
+        #     for due in key:
+        #         print(due)
+
     for j in json_response:
         base = 'https://tasks.googleapis.com/tasks/v1/lists/'
         acct = os.environ['ACCT_LIST']
@@ -65,15 +73,31 @@ def main():
         web = os.environ['WEB_LIST']
         title = j['title']
         notes = j['description']
-        due = j['due_at']
         course = j['context_name']
+        for key, value in j.items():
+            assignment = j['assignment']
+            due = assignment['due_at']
 
+        body = {
+            "title": f'{title}',
+            "notes": f'{notes}',
+            "due": f'{due}'
+        }
         if 'ACCT MGR DECISIONS' in course:
-            requests.post(f'{base}{acct}/tasks')
+            service.tasks().insert(
+                tasklist=acct,
+                body=body
+            ).execute()
         elif 'MANAGEMENT IN IT' in course:
-            requests.post(f'{base}{mgmt}/tasks')
+            service.tasks().insert(
+                tasklist=mgmt,
+                body=body
+            ).execute()
         elif 'WEB SERVER APPLICATION DEV' in course:
-            requests.post(f'{base}{web}/tasks')
+            service.tasks().insert(
+                tasklist=web,
+                body=body
+            ).execute()
 
 
 if __name__ == '__main__':
